@@ -15,13 +15,13 @@ terraform {
       keys = key_provider.gcp_kms.default
     }
 
-    #       state {
-    #         method = method.encrypted.default
+    state {
+      method = method.encrypted.default
 
-    #         fallback {
-    #           method = method.unencrypted.migrate
-    #         }
-    #       }
+      #         fallback {
+      #           method = method.unencrypted.migrate
+      #         }
+    }
   }
 
 
