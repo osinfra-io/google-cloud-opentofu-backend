@@ -128,7 +128,7 @@ resource "google_kms_crypto_key_iam_member" "github_actions" {
 
 resource "google_kms_key_ring" "state_encryption" {
   name     = "state-encryption"
-  location = "global"
+  location = "us"
   project  = module.project.id
 
   # We can't use the lifecycle block to prevent destroy on this resource for testing purposes.
