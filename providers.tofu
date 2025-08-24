@@ -1,0 +1,70 @@
+terraform {
+
+  # State and Plan Encryption
+  # https://opentofu.org/docs/language/state/encryption
+
+  #   encryption {
+  #     method "unencrypted" "migrate" {}
+
+  #     key_provider "gcp_kms" "default" {
+  #       kms_encryption_key = "projects/plt-lz-backend-tf69-sb/locations/global/keyRings/state-encryption"
+  #       key_length         = 32
+  #     }
+
+  #     method "gcp_kms" "default" {
+  #       keys = "gcp_kms.default"
+  #     }
+
+  #     state {
+  #       method = method.gcp_kms.default
+
+  #       fallback {
+  #         method = method.unencrypted.migrate
+  #       }
+  #     }
+  #   }
+
+
+  # Requiring Providers
+  # https://opentofu.org/docs/language/providers/requirements#requiring-providers
+
+  required_providers {
+
+    # Datadog Provider
+    # https://search.opentofu.org/provider/DataDog/datadog/latest/docs
+
+    datadog = {
+      source = "datadog/datadog"
+    }
+
+    # Google Cloud Platform Provider
+    # https://search.opentofu.org/provider/hashicorp/google/latest/docs
+
+    google = {
+      source = "hashicorp/google"
+    }
+
+    # Random Provider
+    # https://opentofu.org/docs/providers/random/index.html
+
+    random = {
+      source = "hashicorp/random"
+    }
+  }
+}
+
+provider "datadog" {
+  api_key = var.datadog_api_key
+  app_key = var.datadog_app_key
+}
+
+
+# Google Cloud Provider
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs
+
+# This is only needed during bootstrapping.
+
+# provider "google" {
+#   billing_project       = var.billing_project
+#   user_project_override = true
+# }
