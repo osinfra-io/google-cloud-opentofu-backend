@@ -4,8 +4,6 @@ terraform {
   # https://opentofu.org/docs/language/state/encryption
 
   encryption {
-    method "unencrypted" "migrate" {}
-
     key_provider "gcp_kms" "default" {
       kms_encryption_key = "projects/plt-lz-backend-tf69-sb/locations/us/keyRings/state-encryption/cryptoKeys/default"
       key_length         = 32
@@ -15,12 +13,14 @@ terraform {
       keys = key_provider.gcp_kms.default
     }
 
-    state {
-      method = method.aes_gcm.default
+    plan {
+      method   = method.aes_gcm.default
+      enforced = true
+    }
 
-      fallback {
-        method = method.unencrypted.migrate
-      }
+    state {
+      method   = method.aes_gcm.default
+      enforced = true
     }
   }
 
