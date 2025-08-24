@@ -135,6 +135,15 @@ resource "google_cloud_identity_group_membership" "github_actions" {
   ]
 }
 
+# Google KMS Key Ring Resource
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/kms_key_ring
+
+resource "google_kms_key_ring" "state_encryption" {
+  name     = "state-encryption"
+  location = "global"
+  project  = module.project.id
+}
+
 # Google Service Account Resource
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/google_service_account
 

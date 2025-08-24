@@ -18,6 +18,11 @@ output "github_actions_service_account_emails" {
   }
 }
 
+output "opentofu_state_kms_key_ring" {
+  description = "The OpenTofu state KMS key ring"
+  value       = google_kms_key_ring.state_encryption.id
+}
+
 output "opentofu_state_storage_buckets" {
   description = "The OpenTofu state bucket names"
   value = {
