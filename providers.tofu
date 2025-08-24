@@ -6,10 +6,10 @@ terraform {
   encryption {
     method "unencrypted" "migrate" {}
 
-    #       key_provider "gcp_kms" "default" {
-    #         kms_encryption_key = "projects/plt-lz-backend-tf69-sb/locations/us/keyRings/state-encryption/cryptoKeys/default"
-    #         key_length         = 32
-    #       }
+    key_provider "gcp_kms" "default" {
+      kms_encryption_key = "projects/plt-lz-backend-tf69-sb/locations/us/keyRings/state-encryption/cryptoKeys/default"
+      key_length         = 32
+    }
 
     #       method "encrypted" "default" {
     #         keys = key_provider.gcp_kms.default
