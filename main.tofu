@@ -112,15 +112,14 @@ resource "google_kms_crypto_key" "state_encryption" {
   # }
 }
 
+
 # Google KMS Crypto Key IAM Member
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_member
 
-resource "google_kms_crypto_key_iam_member" "github_actions" {
-  for_each = local.service_accounts
-
+resource "google_kms_crypto_key_iam_member" "cloud_storage_service_account" {
   crypto_key_id = google_kms_crypto_key.state_encryption.id
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
-  member        = "serviceAccount:${google_service_account.github_actions[each.key].email}"
+  member        = "serviceAccount:service-${module.project.number}@gs-project-accounts.iam.gserviceaccount.com"
 }
 
 # Google KMS Key Ring Resource
