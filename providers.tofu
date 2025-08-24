@@ -3,26 +3,26 @@ terraform {
   # State and Plan Encryption
   # https://opentofu.org/docs/language/state/encryption
 
-  #  encryption {
-  #     method "unencrypted" "migrate" {}
+  encryption {
+    method "unencrypted" "migrate" {}
 
-  #     key_provider "gcp_kms" "default" {
-  #       kms_encryption_key = "projects/plt-lz-backend-tf69-sb/locations/us/keyRings/state-encryption/cryptoKeys/default"
-  #       key_length         = 32
-  #     }
+    #       key_provider "gcp_kms" "default" {
+    #         kms_encryption_key = "projects/plt-lz-backend-tf69-sb/locations/us/keyRings/state-encryption/cryptoKeys/default"
+    #         key_length         = 32
+    #       }
 
-  #     method "encrypted" "default" {
-  #       keys = key_provider.gcp_kms.default
-  #     }
+    #       method "encrypted" "default" {
+    #         keys = key_provider.gcp_kms.default
+    #       }
 
-  #     state {
-  #       method = method.encrypted.default
+    #       state {
+    #         method = method.encrypted.default
 
-  #       fallback {
-  #         method = method.unencrypted.migrate
-  #       }
-  #     }
-  #   }
+    #         fallback {
+    #           method = method.unencrypted.migrate
+    #         }
+    #       }
+  }
 
 
   # Requiring Providers
