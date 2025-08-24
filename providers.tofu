@@ -18,9 +18,9 @@ terraform {
     state {
       method = method.encrypted.default
 
-      #         fallback {
-      #           method = method.unencrypted.migrate
-      #         }
+      fallback {
+        method = method.unencrypted.migrate
+      }
     }
   }
 
