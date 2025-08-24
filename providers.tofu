@@ -11,12 +11,12 @@ terraform {
       key_length         = 32
     }
 
-    method "encrypted" "default" {
+    method "aes_gcm" "default" {
       keys = key_provider.gcp_kms.default
     }
 
     state {
-      method = method.encrypted.default
+      method = method.aes_gcm.default
 
       fallback {
         method = method.unencrypted.migrate
