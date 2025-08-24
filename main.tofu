@@ -1,48 +1,3 @@
-terraform {
-
-  # Requiring Providers
-  # https://opentofu.org/docs/language/providers/requirements#requiring-providers
-
-  required_providers {
-
-    # Datadog Provider
-    # https://search.opentofu.org/provider/DataDog/datadog/latest/docs
-
-    datadog = {
-      source = "datadog/datadog"
-    }
-
-    # Google Cloud Platform Provider
-    # https://search.opentofu.org/provider/hashicorp/google/latest/docs
-
-    google = {
-      source = "hashicorp/google"
-    }
-
-    # Random Provider
-    # https://opentofu.org/docs/providers/random/index.html
-
-    random = {
-      source = "hashicorp/random"
-    }
-  }
-}
-
-provider "datadog" {
-  api_key = var.datadog_api_key
-  app_key = var.datadog_app_key
-}
-
-# Google Cloud Provider
-# https://search.opentofu.org/provider/hashicorp/google/latest/docs
-
-# This is only needed during bootstrapping.
-
-# provider "google" {
-#   billing_project       = var.billing_project
-#   user_project_override = true
-# }
-
 # Datadog Google Cloud Platform Integration Module (osinfra.io)
 # https://github.com/osinfra-io/opentofu-datadog-google-integration
 
@@ -133,6 +88,64 @@ resource "google_cloud_identity_group_membership" "github_actions" {
   depends_on = [
     module.project
   ]
+}
+
+# Google KMS Crypto Key Resource
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/kms_crypto_key
+
+resource "google_kms_crypto_key" "state_encryption" {
+  name            = "default"
+  key_ring        = google_kms_key_ring.state_encryption.id
+  labels          = module.helpers.labels
+  rotation_period = "7776000s"
+
+  # We can't use the lifecycle block to prevent destroy on this resource for testing purposes.
+
+  # CryptoKeys cannot be deleted from Google Cloud Platform. Destroying a OpenTofu-managed CryptoKey will
+  # remove it from state and delete all CryptoKeyVersions, rendering the key unusable, but will not delete
+  # the resource from the project. When OpenTofu destroys these keys, any data previously encrypted with
+  # these keys will be irrecoverable. For this reason, it is strongly recommended that you add lifecycle
+  # hooks to the resource to prevent accidental destruction.
+
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
+
+
+# Google KMS Crypto Key IAM Member
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_member
+
+resource "google_kms_crypto_key_iam_member" "cloud_storage_service_account" {
+  crypto_key_id = google_kms_crypto_key.state_encryption.id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  member        = "serviceAccount:service-${module.project.number}@gs-project-accounts.iam.gserviceaccount.com"
+}
+
+resource "google_kms_crypto_key_iam_member" "github_actions" {
+  for_each = local.service_accounts
+
+  crypto_key_id = google_kms_crypto_key.state_encryption.id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  member        = "serviceAccount:${google_service_account.github_actions[each.key].email}"
+}
+
+# Google KMS Key Ring Resource
+# https://search.opentofu.org/provider/hashicorp/google/latest/docs/resources/kms_key_ring
+
+resource "google_kms_key_ring" "state_encryption" {
+  name     = "state-encryption"
+  location = "us"
+  project  = module.project.id
+
+  # We can't use the lifecycle block to prevent destroy on this resource for testing purposes.
+
+  # KeyRings cannot be deleted from Google Cloud Platform. Destroying a OpenTofu-managed KeyRing will remove it from
+  # state but will not delete the resource from the project.
+
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 # Google Service Account Resource
