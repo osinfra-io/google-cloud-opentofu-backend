@@ -11,9 +11,9 @@ terraform {
       key_length         = 32
     }
 
-    #       method "encrypted" "default" {
-    #         keys = key_provider.gcp_kms.default
-    #       }
+    method "encrypted" "default" {
+      keys = key_provider.gcp_kms.default
+    }
 
     #       state {
     #         method = method.encrypted.default
