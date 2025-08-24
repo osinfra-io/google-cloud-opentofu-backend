@@ -22,8 +22,10 @@ terraform {
     }
 
     state {
-      method   = method.aes_gcm.default
-      enforced = true
+      method = method.aes_gcm.default
+      fallback {
+        method = method.unencrypted.migrate
+      }
     }
   }
 
