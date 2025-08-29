@@ -2,8 +2,6 @@
 # https://opentofu.org/docs/language/values/locals
 
 locals {
-  kms_encryption_key = "projects/plt-lz-backend-tf69-sb/locations/us/keyRings/state-encryption/cryptoKeys/default"
-
   service_accounts = {
     "plt-backstage" = {
       github_repositories = ["backstage"]

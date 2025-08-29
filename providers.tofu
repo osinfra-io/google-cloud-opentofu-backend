@@ -3,9 +3,14 @@ terraform {
   # State and Plan Encryption
   # https://opentofu.org/docs/language/state/encryption
 
+  # The commented out sections below demonstrate how to configure
+  # fallback encryption methods for state and plan files for bootstrapping.
+
   encryption {
+    # method "unencrypted" "migrate" {}
+
     key_provider "gcp_kms" "default" {
-      kms_encryption_key = local.kms_encryption_key
+      kms_encryption_key = var.kms_encryption_key
       key_length         = 32
     }
 
@@ -16,11 +21,19 @@ terraform {
     plan {
       method   = method.aes_gcm.default
       enforced = true
+
+      # fallback {
+      #   method = method.unencrypted.migrate
+      # }
     }
 
     state {
       method   = method.aes_gcm.default
       enforced = true
+
+      # fallback {
+      #   method = method.unencrypted.migrate
+      # }
     }
   }
 
@@ -64,7 +77,7 @@ provider "datadog" {
 
 # This is only needed during bootstrapping.
 
-# provider "google" {
-#   billing_project       = var.billing_project
-#   user_project_override = true
-# }
+provider "google" {
+  billing_project       = var.billing_project
+  user_project_override = true
+}

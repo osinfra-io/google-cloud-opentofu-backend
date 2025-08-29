@@ -3,10 +3,10 @@
 
 # This is only needed during bootstrapping.
 
-# variable "billing_project" {
-#   description = "The quota project to send in `user_project_override`, used for all requests sent from the provider. If set on a resource that supports sending the resource project, this value will supersede the resource project. This field is ignored if `user_project_override` is set to false or unset"
-#   type        = string
-# }
+variable "billing_project" {
+  description = "The quota project to send in `user_project_override`, used for all requests sent from the provider. If set on a resource that supports sending the resource project, this value will supersede the resource project. This field is ignored if `user_project_override` is set to false or unset"
+  type        = string
+}
 
 variable "billing_users_group_id" {
   description = "The numeric ID of the billing users group"
@@ -30,6 +30,11 @@ variable "datadog_enable" {
   description = "Enable Datadog integration"
   type        = bool
   default     = false
+}
+
+variable "kms_encryption_key" {
+  description = "The KMS encryption key for state and plan files"
+  type        = string
 }
 
 variable "project_billing_account" {
