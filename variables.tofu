@@ -59,6 +59,16 @@ variable "project_monthly_budget_amount" {
   default     = 5
 }
 
+variable "state_bucket" {
+  description = "The name of the GCS bucket to store state files"
+  type        = string
+}
+
+variable "state_prefix" {
+  description = "The prefix for state files in the GCS bucket"
+  type        = string
+}
+
 variable "workload_identity_pool_name" {
   description = "The workload identity pool name"
   type        = string
