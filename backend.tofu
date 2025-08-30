@@ -1,6 +1,7 @@
 terraform {
   backend "gcs" {
-    prefix             = "google-cloud-opentofu-backend"
-    kms_encryption_key = local.kms_encryption_key
+    bucket             = var.state_bucket
+    kms_encryption_key = var.kms_encryption_key
+    prefix             = var.state_prefix
   }
 }

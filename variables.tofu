@@ -32,6 +32,11 @@ variable "datadog_enable" {
   default     = false
 }
 
+variable "kms_encryption_key" {
+  description = "The KMS encryption key for state and plan files"
+  type        = string
+}
+
 variable "project_billing_account" {
   description = "The alphanumeric ID of the billing account this project belongs to"
   type        = string
@@ -52,6 +57,16 @@ variable "project_monthly_budget_amount" {
   description = "The monthly budget amount in USD to set for the project"
   type        = number
   default     = 5
+}
+
+variable "state_bucket" {
+  description = "The name of the GCS bucket to store state files"
+  type        = string
+}
+
+variable "state_prefix" {
+  description = "The prefix for state files in the GCS bucket"
+  type        = string
 }
 
 variable "workload_identity_pool_name" {
