@@ -71,13 +71,12 @@ provider "datadog" {
   app_key = var.datadog_app_key
 }
 
-
 # Google Cloud Provider
 # https://search.opentofu.org/provider/hashicorp/google/latest/docs
 
 # This is only needed during bootstrapping.
 
-provider "google" {
-  billing_project       = var.billing_project
-  user_project_override = true
-}
+# provider "google" {
+#   billing_project       = var.billing_project
+#   user_project_override = true
+# }
