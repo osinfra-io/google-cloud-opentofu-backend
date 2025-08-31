@@ -37,3 +37,4 @@ Links to documentation and other resources required to develop and iterate in th
 - [service accounts](https://cloud.google.com/iam/docs/service-accounts)
 - [iam roles](https://cloud.google.com/iam/docs/understanding-roles)
 - [opentofu backend type gcs](https://opentofu.org/docs/language/settings/backends/gcs)
+- [opentofu state and plan encryption](https://opentofu.org/docs/language/state/encryption)
