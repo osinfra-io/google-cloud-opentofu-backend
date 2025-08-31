@@ -18,7 +18,7 @@ permissions:
 jobs:
   main:
     name: "Main"
-    uses: osinfra-io/github-opentofu-gcp-called-workflows/.github/workflows/plan-and-apply.yml@1c86a06871d3ce9f0b3e371b48563ee5de871077 # v0.2.8
+    uses: osinfra-io/github-opentofu-gcp-called-workflows/.github/workflows/plan-and-apply.yml@e3c59e43f2458550c7f13b6369fb6978b6f42c6e # v0.2.9
     if: github.event.workflow_run.conclusion == 'success'
     with:
       checkout_ref: ${{ github.ref }}
