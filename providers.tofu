@@ -10,7 +10,7 @@ terraform {
     # method "unencrypted" "migrate" {}
 
     key_provider "gcp_kms" "default" {
-      kms_encryption_key = var.kms_encryption_key
+      kms_encryption_key = var.state_kms_encryption_key
       key_length         = 32
     }
 
